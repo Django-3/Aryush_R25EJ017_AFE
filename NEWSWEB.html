@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24/7 CHRONICLE | Live News Portal</title>
+    <style>
+        /* Global Variables & Reset */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #141414;
+            --accent-red: #ff3333;
+            --accent-yellow: #ffcc00;
+            --text-light: #ffffff;
+            --text-muted: #aaaaaa;
+            --border-color: #222222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* Top Header & Ticker */
+        .breaking-ticker {
+            background-color: var(--accent-red);
+            color: #000;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            font-weight: bold;
+            height: 40px;
+        }
+
+        .ticker-title {
+            background: #000;
+            color: var(--accent-yellow);
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            z-index: 10;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .ticker-move {
+            display: inline-block;
+            white-space: nowrap;
+            padding-right: 100%;
+            animation: ticker 25s linear infinite;
+        }
+
+        .ticker-item {
+            display: inline-block;
+            padding: 0 2rem;
+            color: #000;
+        }
+
+        @keyframes ticker {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-100%, 0, 0); }
+        }
+
+        /* Navigation */
+        header {
+            background-color: #000;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .brand-logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-decoration: none;
+            color: var(--text-light);
+        }
+
+        .brand-logo span {
+            color: var(--accent-red);
+        }
+
+        .live-badge {
+            background-color: var(--accent-red);
+            color: #fff;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            border-radius: 3px;
+            margin-left: 8px;
+            vertical-align: middle;
+            animation: pulse 1.5s infinite;
+            font-weight: bold;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-menu a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: var(--accent-yellow);
+        }
+
+        /* Main Portal Layout */
+        .main-layout {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Left Column: News Grid */
+        .featured-story {
+            background-color: var(--bg-card);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .featured-img {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(45deg, #111, #222);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-size: 3rem;
+            font-weight: bold;
+            position: relative;
+        }
+
+        /* Visual placeholder styling */
+        .featured-img::before {
+            content: "GLOBAL SUMMIT 2026";
+            color: rgba(255,255,255,0.05);
+            position: absolute;
+        }
+
+        .featured-content {
+            padding: 2rem;
+        }
+
+        .category-tag {
+            background-color: rgba(255, 204, 0, 0.1);
+            color: var(--accent-yellow);
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .featured-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .featured-content p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .meta-info {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        /* Secondary Grid */
+        .sub-news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .news-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card-img {
+            height: 180px;
+            background-color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .card-content {
+            padding: 1.2rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+            line-height: 1.3;
+        }
+
+        .card-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        /* Right Column: Live Timeline Feed */
+        .live-timeline-panel {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.5rem;
+            height: fit-content;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-header h2 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-stream {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            max-height: 650px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Custom Scrollbar */
+        .timeline-stream::-webkit-scrollbar {
+            width: 6px;
+        }
+        .timeline-stream::-webkit-scrollbar-thumb {
+            background-color: #333;
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent-red);
+            border-radius: 50%;
+        }
+
+        .time-stamp {
+            font-size: 0.8rem;
+            color: var(--accent-yellow);
+            font-weight: bold;
+        }
+
+        .timeline-item h4 {
+            font-size: 1rem;
+            margin: 0.2rem 0;
+        }
+
+        .timeline-item p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            .featured-content h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-menu {
+                display: none; /* Simplification for mobile view */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="breaking-ticker">
+        <div class="ticker-title">Breaking News</div>
+        <div class="ticker-wrap">
+            <div class="ticker-move">
+                <span class="ticker-item">🚨 Markets hit record highs amid global tech expansion.</span>
+                <span class="ticker-item">🌍 Renewable energy pact signed by 45 nations at AI & Tech Summit.</span>
+                <span class="ticker-item">🚀 Next-gen spacecraft successfully completes orbital testing metrics.</span>
+                <span class="ticker-item">🏆 Global championship final match heading into overtime.</span>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="brand-logo">CHRONICLE<span class="live-badge">LIVE</span></a>
+            <ul class="nav-menu">
+                <li><a href="#" class="active">Top Stories</a></li>
+                <li><a href="#">World</a></li>
+                <li><a href="#">Technology</a></li>
+                <li><a href="#">Business</a></li>
+                <li><a href="#">Science</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main class="main-layout">
+
+        <div class="news-stream-area">
+            
+            <div class="featured-story">
+                <div class="featured-img">
+                    </div>
+                <div class="featured-content">
+                    <span class="category-tag">Technology & Society</span>
+                    <h1>Global Summit Finalizes Framework for Autonomous Systems</h1>
+                    <p>International delegates have concluded a comprehensive structural treaty mapping safety standards and collaborative infrastructure policies for next-generation automation tools.</p>
+                    <div class="meta-info">Published 12 minutes ago • By Sarah Jenkins</div>
+                </div>
+            </div>
+
+            <div class="sub-news-grid">
+                
+                <div class="news-card">
+                    <div class="card-img" style="background: #112;">[ Quantum Computing Update ]</div>
+                    <div class="card-content">
+                        <span class="category-tag" style="font-size:0.7rem">Science</span>
+                        <h3>Quantum Processors Reach New Stability Milestone</h3>
+                        <p>Laboratory tests confirm structural error-correction benchmarks have surpassed predicted target thresholds.</p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="card-img" style="background: #211;">[ Green Grid Initiatives ]</div>
+                    <div class="card-content">
+                        <span class="category-tag" style="font-size:0.7rem">Business</span>
+                        <h3>Electric Grid Systems Secure Regional Funding</h3>
+                        <p>Major infrastructure capital allocations target smart routing efficiency implementations this quarter.</p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="card-img" style="background: #121;">[ Exploration Systems ]</div>
+                    <div class="card-content">
+                        <span class="category-tag" style="font-size:0.7rem">World</span>
+                        <h3>Deep Sea Expedition Maps Uncharted Oceanic Trench</h3>
+                        <p>Submersible monitoring equipment captures high-fidelity data arrays from previously inaccessible depths.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <aside class="live-timeline-panel">
+            <div class="panel-header">
+                <h2>Live Feed <span class="live-badge" style="margin-left:5px;">REC</span></h2>
+                <span style="font-size: 0.85rem; color: var(--text-muted);" id="live-counter">Updating...</span>
+            </div>
+            
+            <div class="timeline-stream" id="timeline-stream">
+                <div class="timeline-item">
+                    <span class="time-stamp">11:05 AM</span>
+                    <h4>Tech Index Rises 1.4% Following Midday Trade Data</h4>
+                    <p>Investors respond positively to structural automation output declarations.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="time-stamp">10:48 AM</span>
+                    <h4>Press Briefing Scheduled Regarding Summit Decisions</h4>
+                    <p>Official statements are expected from international delegates within the hour.</p>
+                </div>
+                <div class="timeline-item">
+                    <span class="time-stamp">10:15 AM</span>
+                    <h4>Coastal Weather Infrastructure Deploys Early Warn Array</h4>
+                    <p>Advanced sensor buoy data pipeline goes operational across the eastern seaboard.</p>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <script>
+        const newsStream = document.getElementById('timeline-stream');
+        const simulatedUpdates = [
+            { title: "Central Bank Announces Adjusted Treasury Projections", desc: "Monetary frameworks display stabilized trends heading into next month." },
+            { title: "Aerospace Firm Confirms Next Orbital Launch Date", desc: "Telemetry validations have cleared final systemic inspection checkpoints." },
+            { title: "Major Urban Center Trials Smart Lighting Network", desc: "Grid management tests indicate up to 22% structural energy preservation." }
+        ];
+
+        let updateIndex = 0;
+
+        // Simulate a live update trickling in every 12 seconds
+        setInterval(() => {
+            if (updateIndex < simulatedUpdates.length) {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                const newItem = document.createElement('div');
+                newItem.className = 'timeline-item';
+                newItem.style.animation = 'fadeIn 0.5s ease-out';
+                newItem.innerHTML = `
+                    <span class="time-stamp">${timeString} - JUST IN</span>
+                    <h4>${simulatedUpdates[updateIndex].title}</h4>
+                    <p>${simulatedUpdates[updateIndex].desc}</p>
+                `;
+                
+                newsStream.insertBefore(newItem, newsStream.firstChild);
+                updateIndex++;
+                document.getElementById('live-counter').innerText = "Last updated: Just now";
+            }
+        }, 12000);
+    </script>
+</body>
+</html>
